@@ -54,7 +54,7 @@ class ParserSpace {
 				return;
 			}
 
-			space = string.indexOf(' ');
+			space = string.indexOf(' '); //если заменить этот символ, то можно парсить по любому символу
 			String oneWord = string.substring(0,space);
 			//System.out.println("One word:["+oneWord+"]"); //для отладки
 			answer.add(oneWord);
