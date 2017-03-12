@@ -2,8 +2,7 @@ package application.view.controllers;
 
 import application.Loader;
 import application.Main;
-import application.logic.Line;
-import application.logic.Parcer;
+import application.logic.*;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -19,15 +18,16 @@ public class DBViewController{
 	private TableColumn<Line,String> tableName, tablePassword,tableDesc, numberColumn;
 	@FXML
 	private Button addButton, removeButton, editButton;
-	protected Loader addSceneLoader;
+	protected Loader addSceneLoader, saveSceneLoader; //загрузчики сцен
 	
 	@FXML
 	public void initialize(){
-		Main.functionalStage.setTitle("Novac Password Function");
+		
+		saveSceneLoader = new Loader(Main.functionalStage,"view/SaveSceneView.fxml",false);
 		addSceneLoader = new Loader(Main.functionalStage,"view/AddSceneView.fxml",false);
 		
 		
-		lines = Parcer.openDB("test.txt");
+		
 		
         // устанавливаем тип и значение которое должно хранится в колонке
         tableName.setCellValueFactory(new PropertyValueFactory<Line,String>("name"));
@@ -57,6 +57,10 @@ public class DBViewController{
         menuClose.setOnAction( (e) -> {
         	Main.loginViewLoader.setUp();
         	Main.dbStage.close();
+        });
+        
+        menuSave.setOnAction( (e) -> {
+        	saveSceneLoader.setUp();
         });
         
 	}//end of initialize()

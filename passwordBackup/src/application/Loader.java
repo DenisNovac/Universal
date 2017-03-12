@@ -8,7 +8,6 @@ import javafx.stage.Stage;
 
 //класс для загрузки и показа макетов
 //при создании экземпляра класса все переменные сохраняются в нём
-//затем мы ничего не пересоздаём - просто подгружаем из них
 
 public class Loader {
 	private Stage stage;
@@ -23,10 +22,10 @@ public class Loader {
 		this.stage=stage; //получаем ссылку на мейн сцену
 		this.fxmlpath=fxmlpath;
 		this.resizable=resizable;
-		
 	}
 
 	public void setUp() {
+		//пересоздаём сцену заново каждый раз
 		
 		loader = new FXMLLoader(); 
 		loader.setLocation(Loader.class.getResource(fxmlpath));

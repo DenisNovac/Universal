@@ -3,6 +3,7 @@ package application.view.controllers;
 import java.io.File;
 
 import application.Main;
+import application.logic.Parcer;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.FileChooser;
@@ -28,7 +29,7 @@ public class LoginViewController{
 			fileChooser.setInitialDirectory(new File(".")); //открывает папку, откуда запущена программа
 			File file = fileChooser.showOpenDialog(Main.primaryStage);
 			String path = file.getPath();
-			if (pathOk(path)) pathField.setText(path); //автоматически вставляет его в строчку пути
+			if (Parcer.pathOk(path)) pathField.setText(path); //автоматически вставляет его в строчку пути
 			else infoLabel.setText("Incorrect file: Input some .npdb file!");
 		});
 		
@@ -45,12 +46,12 @@ public class LoginViewController{
 	private void openDB(){
 		String error=""; //хотим показывать пользователю все его ошибки сразу
 		
-		Main.dbViewLoader.setUp();
-		Main.primaryStage.close();
+		
+		
 		
 		if (pathField.getText().length()<1){
 			error+="You need to input path to your DB!\n";
-		}else if (!pathOk(pathField.getText())){
+		}else if (!Parcer.pathOk(pathField.getText())){
 			error+="Incorrect file: Input some .npdb file!\n";
 		}
 		if ((passwordField.getLength())<6){
@@ -62,17 +63,14 @@ public class LoginViewController{
 			return;
 		}
 		else {
-			infoLabel.setText("awesome");
+			DBViewController.lines=Parcer.openDB(pathField.getText());
+			Main.dbViewLoader.setUp();
+			Main.primaryStage.close();
 		}
+		
 	}
 	
-	private Boolean pathOk(String path){ //проверка расширения файла
-		if ( path.lastIndexOf('.')!=-1 & path.lastIndexOf('.')!=0 )	{
-			String ext = path.substring(path.lastIndexOf('.')+1);
-			if (ext.equals("npdb")) return true;
-		}
-		return false;
-	}
+	
 	
 	
 }

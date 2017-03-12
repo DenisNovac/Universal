@@ -32,7 +32,7 @@ public class StringToWords {
 				iterator--;
 				return;
 			}
-			space = string.indexOf('|');
+			space = string.indexOf('|'); //использую разделитель |
 			String oneWord = string.substring(0,space);
 			//System.out.println("One word:["+oneWord+"]"); //для отладки
 			answer.add(oneWord);

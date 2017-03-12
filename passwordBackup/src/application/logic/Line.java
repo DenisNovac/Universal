@@ -1,6 +1,6 @@
 package application.logic;
 
-//класс инкапсулирует линии из файла
+//класс инкапсулирует строки из файла, каждый экземпляр - строка
 public class Line {
 	String name;
 	String pass;

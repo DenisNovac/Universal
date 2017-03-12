@@ -2,6 +2,7 @@ package application;
 	
 import application.logic.Line;
 import javafx.application.Application;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -17,7 +18,12 @@ public class Main extends Application {
 		primaryStage=pS;
 		primaryStage.setTitle("Novac Password");
 		dbStage=new Stage();
+		dbStage.setTitle("Novac Password Database");
 		functionalStage=new Stage();
+		functionalStage.setTitle("Novac Password Function");
+		
+		functionalStage.initModality(Modality.WINDOW_MODAL);
+		functionalStage.initOwner(dbStage);
 		
 		//показываем окошко входа
 		loginViewLoader = new Loader(primaryStage, "view/LoginView.fxml", false);

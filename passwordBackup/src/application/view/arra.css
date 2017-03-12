@@ -28,7 +28,7 @@ linear-gradient(to bottom, derive(-fx-base,+50%), derive(-fx-base,-40%), derive(
  ******************************************************************************/
 
 .button {
-    -fx-padding: 1 12 1 12;   
+    -fx-padding: 1 12 1 12;  
     -fx-border-color: #e2e2e2;
     -fx-border-width: 2;
 

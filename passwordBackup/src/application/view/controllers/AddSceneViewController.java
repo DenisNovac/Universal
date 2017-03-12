@@ -1,13 +1,13 @@
 package application.view.controllers;
 import application.Main;
-import application.logic.Line;
+import application.logic.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 //эта же форма используется для изменения уже созданных записей
 public class AddSceneViewController{
 	@FXML
-	private Button saveButton, cancelButton;
+	private Button saveButton, cancelButton, randomButton;
 	@FXML
 	private TextField nameField, passwordField,descriptionField;
 
@@ -23,6 +23,10 @@ public class AddSceneViewController{
 			passwordField.setText(inChanging.getPass());
 			descriptionField.setText(inChanging.getDesc());
 		}
+		
+		randomButton.setOnAction( (e)->{
+			passwordField.setText(RandomPassword.generate(20));
+		});
 		
 		saveButton.setOnAction( (e)->{
 			if (inChanging!=null){ //если есть линия на замену - вставляем изменения в неё
