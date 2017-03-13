@@ -1,15 +1,17 @@
 package application.view.controllers;
+
 import application.Main;
 import application.logic.*;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 //эта же форма используется для изменения уже созданных записей
 public class AddSceneViewController{
 	@FXML
 	private Button saveButton, cancelButton, randomButton;
 	@FXML
 	private TextField nameField, passwordField,descriptionField;
+	@FXML
+	private Label infoLabel;
 
 	private static Line inChanging; //переменная, содержащая линию, которую мы меняем
 	
@@ -29,16 +31,24 @@ public class AddSceneViewController{
 		});
 		
 		saveButton.setOnAction( (e)->{
-			if (inChanging!=null){ //если есть линия на замену - вставляем изменения в неё
-				inChanging.setProp(nameField.getText(), passwordField.getText(), descriptionField.getText());
+			String name = nameField.getText();
+			String pass = passwordField.getText();
+			String desc = descriptionField.getText();
+			if (!Parcer.noPipe(name)||!Parcer.noPipe(pass)||!Parcer.noPipe(desc)){
+				infoLabel.setText("Please, do not use '|' (pipe) in any field");
+				
+			} else if (inChanging!=null){ //если есть линия на замену - вставляем изменения в неё
+				inChanging.setProp(name, pass, desc);
 				DBViewController.lines.add(Main.LNULL); //добавляем пустую линию для обновления ObservableList
 				inChanging=null;//зануляем линию
+				Main.functionalStage.close();
 			} else { //если нет линии на замену - пишем новую и сразу добавляем
 				DBViewController.lines.add(
-					new Line(/**/nameField.getText(), passwordField.getText(), descriptionField.getText()/**/) 
+					new Line(/**/name, pass, desc/**/) 
 				);
+				Main.functionalStage.close();
 			}
-			Main.functionalStage.close();
+			
 			
 		});
 		

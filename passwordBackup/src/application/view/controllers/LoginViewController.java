@@ -4,9 +4,11 @@ import java.io.File;
 
 import application.Main;
 import application.logic.Parcer;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 
 public class LoginViewController{
 	@FXML
@@ -24,6 +26,7 @@ public class LoginViewController{
 	public void initialize(){
 		fileChooser = new FileChooser(); //объект, получающий файл из проводника
 		fileChooser.setTitle("Open Resource File");//заголовок окошко выбора файла
+		fileChooser.getExtensionFilters().add(new ExtensionFilter("Database file", "*.npdb")); //выбираем разрешение. НЕ ЗАБУДЬ ЗВЁЗДОЧКУ ПИДР
 		
 		pathButton.setOnAction((e)->{
 			fileChooser.setInitialDirectory(new File(".")); //открывает папку, откуда запущена программа
@@ -41,14 +44,16 @@ public class LoginViewController{
 			openDB();
 		});
 		
+		newButton.setOnAction( (e)->{
+			DBViewController.lines=FXCollections.observableArrayList();
+			Main.dbViewLoader.setUp();
+			Main.primaryStage.close();
+		});
+		
 	}
 	
 	private void openDB(){
 		String error=""; //хотим показывать пользователю все его ошибки сразу
-		
-		
-		
-		
 		if (pathField.getText().length()<1){
 			error+="You need to input path to your DB!\n";
 		}else if (!Parcer.pathOk(pathField.getText())){
@@ -57,13 +62,19 @@ public class LoginViewController{
 		if ((passwordField.getLength())<6){
 			error+="You need to input the password! (6 or more letters)\n";
 		}
-		
 		if (error.length()>1) {
 			infoLabel.setText(error);
 			return;
 		}
-		else {
-			DBViewController.lines=Parcer.openDB(pathField.getText());
+		
+		else {//ошибок нет
+			DBViewController.lines=Parcer.openDB(pathField.getText(),passwordField.getText());
+			
+			if (DBViewController.lines==null) {
+				infoLabel.setText("Not correct password");
+				return;
+			}
+			
 			Main.dbViewLoader.setUp();
 			Main.primaryStage.close();
 		}
@@ -71,6 +82,6 @@ public class LoginViewController{
 	}
 	
 	
-	
+	 
 	
 }

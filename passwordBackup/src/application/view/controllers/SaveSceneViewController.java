@@ -5,7 +5,8 @@ import application.Main;
 import application.logic.Parcer;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 
 public class SaveSceneViewController {
 	@FXML
@@ -20,14 +21,14 @@ public class SaveSceneViewController {
 	@FXML
 	public void initialize(){
 		DBViewController.lines.remove(Main.LNULL); //убираем пустую отладочную линию, чтобы не копились
-		DirectoryChooser dirChooser = new DirectoryChooser(); //объект, получающий путь из проводника
-		dirChooser.setTitle("Select directory for result");//заголовок окошка выбора дирректории
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("Select file .npdb or create new");
+		fileChooser.setInitialDirectory(new File("."));
+		fileChooser.getExtensionFilters().add(new ExtensionFilter("Database file", "*.npdb")); //выбираем разрешение. НЕ ЗАБУДЬ ЗВЁЗДОЧКУ ПИДР
 		
 		pathButton.setOnAction( (e) -> {
-			dirChooser.setInitialDirectory(new File("."));
-	        String path = ( dirChooser.showDialog(Main.functionalStage) ).getPath();
-	        pathField.setText(path+"\\mydb.npdb");
-	        infoLabel.setText("Don't forget to check db name in path: mydb.npdb");
+			String path = ( fileChooser.showSaveDialog(Main.functionalStage) ).getPath();
+	        pathField.setText(path);
 		});
 		
 		saveButton.setOnAction( (e) -> {
@@ -53,7 +54,7 @@ public class SaveSceneViewController {
 				infoLabel.setText("Incorrect path: Input some .npdb file name!\n");
 				return;
 			}
-			String answer=Parcer.save(DBViewController.lines, pathField.getText());
+			String answer=Parcer.save(DBViewController.lines, pathField.getText(),passField.getText());
 			infoLabel.setText(answer);
 		});
 		

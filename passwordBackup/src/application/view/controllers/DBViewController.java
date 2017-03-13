@@ -26,9 +26,6 @@ public class DBViewController{
 		saveSceneLoader = new Loader(Main.functionalStage,"view/SaveSceneView.fxml",false);
 		addSceneLoader = new Loader(Main.functionalStage,"view/AddSceneView.fxml",false);
 		
-		
-		
-		
         // устанавливаем тип и значение которое должно хранится в колонке
         tableName.setCellValueFactory(new PropertyValueFactory<Line,String>("name"));
         tablePassword.setCellValueFactory(new PropertyValueFactory<Line,String>("pass"));
