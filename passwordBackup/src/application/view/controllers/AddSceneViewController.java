@@ -34,7 +34,7 @@ public class AddSceneViewController{
 			String name = nameField.getText();
 			String pass = passwordField.getText();
 			String desc = descriptionField.getText();
-			if (!Parcer.noPipe(name)||!Parcer.noPipe(pass)||!Parcer.noPipe(desc)){
+			if (!Checker.noPipe(name)||!Checker.noPipe(pass)||!Checker.noPipe(desc)){
 				infoLabel.setText("Please, do not use '|' (pipe) in any field");
 				
 			} else if (inChanging!=null){ //если есть линия на замену - вставляем изменения в неё

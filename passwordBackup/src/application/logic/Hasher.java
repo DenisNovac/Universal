@@ -3,9 +3,10 @@ package application.logic;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 
-public class EncodingClass {
+public class Hasher {
 	
 	static String toHash(String s, String alg){ //alg: md5 SHA-256 SHA-512
+		
 		MessageDigest sha=null;
 		int RADIX=16;
 		try {
