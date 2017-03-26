@@ -24,6 +24,7 @@ public class StringToWordsParse{
 }
 
 class ParserSpace {
+	private char separator = ' '; //если заменить этот символ, то можно парсить по любому символу
 	private ArrayList<String> answer;
 	private int iterator;
 	private String string;
@@ -54,7 +55,7 @@ class ParserSpace {
 				return;
 			}
 
-			space = string.indexOf(' '); //если заменить этот символ, то можно парсить по любому символу
+			space = string.indexOf(separator); 
 			String oneWord = string.substring(0,space);
 			//System.out.println("One word:["+oneWord+"]"); //для отладки
 			answer.add(oneWord);
