@@ -4,19 +4,21 @@ import java.util.Random;
 
 
 public class QuickSortTest {
-	private final static int ARRAY_LENGTH=10000;
+	private final static int ARRAY_LENGTH=100_000;
 
 	public static void main(String args[]){
 		int[] unsortedArray=generateArray();
 		//printArray(unsortedArray);
-
+		long start = System.nanoTime();
 		QuickSort quickSort = new QuickSort();
 		BubbleSort bubbleSort = new BubbleSort();
 
 		int [] sortedArray = quickSort.sort(unsortedArray);
 		//int [] sortedArray = bubbleSort.sort(unsortedArray);
-
+		long end = System.nanoTime();
+		long time = (end-start)/1_000_000;
 		//printArray(sortedArray);
+		System.out.println("Time wasted: "+time+" msecs");
 
 
 	}

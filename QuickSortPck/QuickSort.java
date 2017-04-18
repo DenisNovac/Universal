@@ -1,13 +1,10 @@
 package QuickSortPck;
 
-import java.util.Random;
-
 
 public class QuickSort {
 	private int[] array;
-	private static Random random = new Random();
 
-	public int[] sort(int [] arr){
+	public int[] sort(int[] arr) {
 		array=arr;
 		int startIndex=0;
 		int endIndex=array.length-1;
@@ -16,46 +13,41 @@ public class QuickSort {
 		return array;
 	}
 
-	private void sorting(int start, int end){
+	private void sorting(int start, int end) {
 		if (start >= end) // если работа метода закончена
 			return;
 
 		int i=start, j=end;
 		int cur;
-		// Может бросить любое число от 0 до end-1
-		do {
-			cur = random.nextInt(end); 
-			//cur=i-(i-j)/2;
-		} while (cur<start); // нужно, чтобы выбор был из той же половины*/
+		
+		//cur=i-(i-j)/2;
+		cur=(i+j)/2; // разбиение по середине отрезка 
+
 
 		while (i<j){
-			// пока значение по i индексу меньше нарандомленного
-			// менять ничего не нужно и прогоняем дальше до cur
-			while ( (array[i] <= array[cur]) && i<cur )
+			// первые два while определяют направление сортировки
+			// движемся с двух концов массива и проверяем элементы
+			
+			while ( i<cur && (array[i] >= array[cur])  )
 				i++;
 
-			// пока значение нарандомленного меньше конца
-			// прогоняем дальше, пока не достигнем cur
-			while ( (array[cur] <= array[j]) && j>cur )
+			while ( j>cur && (array[cur] >= array[j])  )
 				j--;
-
-			// тепперь если индексы не сошлись, сортируем
-			if (i<j){
-				//System.out.println(i + ","+j);
-				int temp = array[i];
-				array[i]=array[j];
-				array[j]=temp;
-				if (i==cur)
-					cur=j;
-				else if (j==cur)
-					cur=i;
-			}
+			
+			// из этих циклов нас выбьет только если найдутся
+			// несортированные элементы
+			
+			int temp = array[i];
+			array[i]=array[j];
+			array[j]=temp;
+			if (i==cur)
+				cur=j;
+			else if (j==cur)
+				cur=i;
 
 		} // end of while(i<j)
-
-		// теперь сортируем половины 
+		
 		sorting(start, cur); 
 		sorting(cur+1, end); 
 	}// end of sorting
-
 }
