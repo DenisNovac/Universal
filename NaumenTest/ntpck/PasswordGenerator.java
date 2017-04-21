@@ -1,8 +1,10 @@
 package ntpck;
 
+// Для генерации случайных входных строк использую
+// свой старый генератор паролей
 public abstract class PasswordGenerator {
 	
-	public static String generate (int n){
+	public static String generate (int n) {
 		String password=" ";
 		int underlines=2;
 		int chars = n;
@@ -48,13 +50,5 @@ public abstract class PasswordGenerator {
 		password=password.trim();
 		
 		return password;
-	}
-	
-	
-	public static String[] generate(int n, int am) {
-		String[] r = new String[am];
-		for (int i=0; i<am; i++)
-			r[i]=generate(n);
-		return r;
 	}
 }

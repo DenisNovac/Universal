@@ -1,4 +1,4 @@
-package ntpck;
+package ntpck.sorter;
 
 public class QuickSort {
 	private long[] timeSorted;
@@ -15,19 +15,19 @@ public class QuickSort {
 		int startIndex=0;
 		int endIndex=timeSorted.length-1;
 		sorting(startIndex, endIndex);
-		
 		/*
 		for (String s: namesSorted) System.out.println(s);
 		System.out.println();
 		*/
-		
+		// второй прогон массива и сортировка по алфавиту
 		ABCSort abc = new ABCSort(timeSorted, namesSorted);
 		abc.sort();
 		namesSorted = abc.getSortedNames();
 		
 		wasSorted=true;
 	}
-		
+	
+	// классический алгоритм быстрой сортировки
 	private void sorting(int start, int end) {
 		if (start >= end) // если работа метода закончена
 			return;

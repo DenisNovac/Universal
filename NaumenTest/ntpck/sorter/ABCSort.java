@@ -1,4 +1,4 @@
-package ntpck;
+package ntpck.sorter;
 
 // класс для сортировки массива по алфавиту
 public class ABCSort {
@@ -6,14 +6,15 @@ public class ABCSort {
 	private long[] sortedTimes;
 	boolean wasSorted = false;
 	
-	// принимает отсортированные массивы
+	// принимает отсортированные массивы и сортирует
+	// по алфавиту названия с одинаковым временем
 	
-	ABCSort (long[] time, String[] names) {
+	protected ABCSort (long[] time, String[] names) {
 		sortedNames=names;
 		sortedTimes=time;
 	}
 	
-	public void sort() {
+	protected void sort() {
 		sorting();
 		wasSorted=true;
 	}
@@ -23,6 +24,7 @@ public class ABCSort {
 	// там сортирует, возвращает в исходный
 	
 	// тут происходит магия, не трогать
+	// метод для сортировки гигантского массива по алфавиту
 	private void sorting() {
 		SortingArray sortingArray=new SortingArray();
 		int i=0;
@@ -33,9 +35,9 @@ public class ABCSort {
 			int left = sortedTimes.length-i-1; // оставшиеся индексы
 			if (left==0) return;
 			
-			sortingArray.setUp(i);
 			sortingArray.addElement(sortedNames[i]);
 			int j=1;
+			
 			for (; j<sortedTimes.length; j++){
 				//System.out.println("j:"+j);
 				if ( (i+j)==sortedTimes.length) break;
@@ -43,6 +45,7 @@ public class ABCSort {
 				// если элементы равны - дописываем их в массив
 				sortingArray.addElement(sortedNames[i+j]);
 			}
+			
 			if (sortingArray.getLast()>=1) {
 				/*
 				System.out.println("SORTING ARRAY: ");
@@ -65,25 +68,21 @@ public class ABCSort {
 			// i=j;
 			
 
-			sortingArray.clear();
+			sortingArray.clear(); // очистка результатов работы
 			
 		}// end of for I
 		
 	}
 	
-	
-	
-	public String[] getSortedNames() {
+	protected String[] getSortedNames() {
 		if (!wasSorted) return null;
 		return sortedNames;
 	}
 	
-	public void setInput(long[] time, String[] names) {
+	protected void setInput(long[] time, String[] names) {
 		sortedNames=names;
 		sortedTimes=time;
 		wasSorted=false;
 	}
-	
-	
 	
 }
