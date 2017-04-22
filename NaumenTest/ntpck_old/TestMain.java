@@ -4,18 +4,17 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Random;
+
 import ntpck.sorter.QuickSort;
 
 
 public class TestMain {
 	// количество входных данных
 	private final static int ARRAY_LENGTH=100;
-	private final static int NAME_LENGTH=12;
-	// время работы занимает ~ 2 секунды при
-	// 100_000 входов с длиной имени 32
 	
 	public static void main(String args[]) {
-		// среднее время выполнения ~ 1s, для паролей длины 12
+		// среднее время выполнения ~ 1s, зависит от длины
+		// строки и количества разрядов во времени изменения
 		
 		long start =  System.nanoTime(); 
 		
@@ -24,15 +23,17 @@ public class TestMain {
 		long[] unsortedLongs = generateArrayLongs();
 		
 		// сортировка
-		QuickSort.sort(unsortedNames, unsortedLongs);
+		QuickSort quickSort = new QuickSort(unsortedLongs, unsortedNames);
+		quickSort.sort();
 		
 		long end = System.nanoTime();
+		String [] sortedNames = quickSort.getSortedNames();
+		long[] sortedTimes = quickSort.getSortedTime();
 		
 		long time = (end-start)/1_000_000;
 		System.out.println("Wasted time: "+ time +" msecs");
 		
-		
-		writeLog(unsortedNames, unsortedLongs); // пишу классы в лог	
+		writeLog(sortedNames, sortedTimes); // пишу классы в лог	
 		
 	} // end of main
 	
@@ -51,7 +52,7 @@ public class TestMain {
 	
 	// красиво выводит массивы данных
 	static void printArrays(String[] names, long[] times) {
-		for (int i=0; i<names.length; i++) {
+		for (int i=0; i<names.length; i++){
 			System.out.println(names[i]+"   "+times[i]);
 		}
 	}// end of printArrays
@@ -61,7 +62,7 @@ public class TestMain {
 	static String[] generateStringsArray() {
 		String[] r = new String[ARRAY_LENGTH];
 		for (int i=0; i<ARRAY_LENGTH; i++)
-			r[i]=PasswordGenerator.generate(NAME_LENGTH);
+			r[i]=PasswordGenerator.generate(10);
 		return r;
 	}
 	

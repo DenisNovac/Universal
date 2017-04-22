@@ -1,26 +1,34 @@
 package ntpck.sorter;
 
-public abstract class QuickSort {
-	private static long[] timeSorted;
-	private static String[] namesSorted;
+public class QuickSort {
+	private long[] timeSorted;
+	private String[] namesSorted;
+	private boolean wasSorted=false;
 	
-	// публичный метод для старта собственно сортировки
-	public static void sort(String[] names, long[] time) {
+	public QuickSort(long[] time, String[] names){
 		timeSorted=time;
 		namesSorted=names;
-		
+	}
+	
+	// публичный метод для старта собственно сортировки
+	public void sort() {
 		int startIndex=0;
 		int endIndex=timeSorted.length-1;
 		sorting(startIndex, endIndex);
-		
+		/*
+		for (String s: namesSorted) System.out.println(s);
+		System.out.println();
+		*/
 		// второй прогон массива и сортировка по алфавиту
-		// элементов с одинаковым временем изменения
+		ABCSort abc = new ABCSort(timeSorted, namesSorted);
+		abc.sort();
+		namesSorted = abc.getSortedNames();
 		
-		ABCSort.sort(names, time);
+		wasSorted=true;
 	}
 	
 	// классический алгоритм быстрой сортировки
-	private static void sorting(int start, int end) {
+	private void sorting(int start, int end) {
 		if (start >= end) // если работа метода закончена
 			return;
 
@@ -33,6 +41,7 @@ public abstract class QuickSort {
 			// первые два while определяют направление сортировки
 			// движемся с двух концов массива и проверяем элементы
 			
+			
 			// сортировка в порядке убывания (новые файлы выше)
 			while ( i<cur && (timeSorted[i] >= timeSorted[cur])  )
 				i++;
@@ -41,10 +50,19 @@ public abstract class QuickSort {
 			while ( j>cur && (timeSorted[cur] >= timeSorted[j])  )
 				j--;
 			
+			
+			
+			/*if (timeSorted[i]==timeSorted[j]& 
+					!namesSorted[i].equals(namesSorted[j]))
+				
+				System.out.println("collision: \n"+timeSorted[i]+":"+
+			namesSorted[i]+" "+timeSorted[j]+":"+namesSorted[j]);*/
+			
 			// собственно заменяем несортированные части
 			// если элементы равны, не меняем их местами.
 			if (timeSorted[i]==timeSorted[j] & 
 					namesSorted[i].equals(namesSorted[j])) continue;
+			/*System.out.println(timeSorted[i]+":"+timeSorted[j]);*/
 			
 			long temp = timeSorted[i];
 			timeSorted[i]=timeSorted[j];
@@ -66,5 +84,24 @@ public abstract class QuickSort {
 		sorting(cur+1, end); 
 		
 	}// end of sorting
+	
+	
+	// различного рода служебные классы для тестов и выводов
+	
+	public long[] getSortedTime() {
+		if (!wasSorted) return null;
+		return timeSorted;
+	}
+	
+	public String[] getSortedNames() {
+		if (!wasSorted) return null;
+		return namesSorted;
+	}
+	
+	public void setClasses(long[] time, String[] names) {
+		timeSorted=time;
+		namesSorted=names;
+		wasSorted=false;
+	}
 	
 }
