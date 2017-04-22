@@ -4,12 +4,13 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Random;
+import ntpck.sorter.Picker;
 import ntpck.sorter.QuickSort;
 
 
 public class TestMain {
 	// количество входных данных
-	private final static int ARRAY_LENGTH=100;
+	private final static int ARRAY_LENGTH=100_000;
 	private final static int NAME_LENGTH=12;
 	// время работы занимает ~ 2 секунды при
 	// 100_000 входов с длиной имени 32
@@ -33,6 +34,16 @@ public class TestMain {
 		
 		
 		writeLog(unsortedNames, unsortedLongs); // пишу классы в лог	
+		
+		start =  System.nanoTime(); 
+		
+		String[] test = Picker.pick(unsortedNames, "asdgsfg");
+		
+		end = System.nanoTime();
+		time = (end-start)/1_000_000;
+		for (String s:test) System.out.println(s);
+		System.out.println("Wasted time: "+ time +" msecs");
+		
 		
 	} // end of main
 	

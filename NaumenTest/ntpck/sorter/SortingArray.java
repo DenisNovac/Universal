@@ -16,7 +16,7 @@ class SortingArray {
 	// метод для подготовки структуры к следующему заполнению
 	
 	// метод очищает результаты работы структуры
-	protected void clear(){
+	protected void clear() {
 		array=new String[2];
 		last=-1;
 	}
@@ -29,7 +29,7 @@ class SortingArray {
 	}
 	
 	// сортировка структуры
-	protected void sort(){
+	protected void sort() {
 		trim();
 		
 		// сортирую массив по алфавиту библиотечным методом
@@ -49,7 +49,7 @@ class SortingArray {
 	}
 	
 	// возвращает последний заполненный индекс
-	protected int getLast(){
+	protected int getLast() {
 		return last;
 	}
 	
