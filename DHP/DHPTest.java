@@ -18,9 +18,18 @@ public class DHPTest {
 		int A,B; // приватные ключи генерируют клиенты
 		BigInteger G,P; // они известны всем и публичны
 
-		P = BigInteger.valueOf(SIMPLE); // простое число
-		G = BigInteger.valueOf(GENERATOR); // G - первообразный корень по модулю P
+		// P = BigInteger.valueOf(SIMPLE); // простое число
+		// G = BigInteger.valueOf(GENERATOR); // G - первообразный корень по модулю P
+		
+		/*P = BigInteger.valueOf (
+			PrimitiveRootModulo.generateSimple() );*/
 
+		/*G = BigInteger.valueOf (
+			PrimitiveRootModulo.searchForFirst(P.intValue()) );*/
+
+		P=BigInteger.valueOf(397);
+		G=BigInteger.valueOf(99);
+		
 		// генерируем приватные ключи
 		while (true) {
 			A = randGen.nextInt(UPBORDER);
@@ -28,7 +37,7 @@ public class DHPTest {
 			if (B<BOTTOMBORDER || A<BOTTOMBORDER) continue;
 			break;
 		}
-
+		System.out.println(P+" "+G);
 		System.out.println("A="+A);
 		System.out.println("B="+B);
 
@@ -49,23 +58,25 @@ public class DHPTest {
 
 
 		//KA=BigInteger.valueOf(155);
-		String result = "Hello comrade! How are you today? Thank you, i am fine! Ahahahh!";
-		result = textCipher(KA, result);
-		result = textCipher(KB, result);
+		String result = "Hello hello hello friend!";
+		result = textCipherXOR(KA, result);
+		result = textCipherXOR(KB, result);
 		// этот ключ не передаётся по каналу, а хранится у пользователей.
 		// таким образом, нам удалось обменяться ключами, не показав их.
 		// в обмене участвуют лишь G,P,a и b, а для получения ключа
 		// необходимы A и B. Прослушивающему шпиону необходимо решить
 		// уравнение: a^B mod P = b^A mod P. У него будут a,b и P, однако
 		// без A и B это невозможно!
-
+		KA=null;
+		KB=null;
+		System.gc();
 	} // end of main
 
 
 
-	// тесируем, щифруя текстовую строчку
-	static String textCipher(BigInteger key, String s) {
-		key=key.multiply(seed);
+	// тесируем, щифруя текстовую строчку обычным Вернамом
+	static String textCipherXOR(BigInteger key, String s) {
+		// key=key.multiply(seed);
 		byte superkey[] = key.toByteArray();
 
 		/*{
@@ -86,7 +97,14 @@ public class DHPTest {
 		}
 		s = new String(text);
 		System.out.println("\n"+s);
+
+		superkey=null;
+		key=null;
+		System.gc();
 		return s;
 	} // end of textCipher
+
+
 	
+
 }
