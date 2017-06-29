@@ -1,3 +1,5 @@
+package NovacKEP;
+
 import java.math.BigInteger;
 import java.util.Random;
 import java.util.ArrayList;
@@ -5,7 +7,10 @@ import java.util.ArrayList;
 public abstract class PrimitiveRootModulo {
 
 private static Random randGen = new Random();
-private static int BORDER=9999; // должен быть больше 4 знаков!
+private static int BORDER=999; // 256 подходит для довольно качественных массивов
+// т.к. мы работаем с байтовыми ключами, они не принимают значения большие,
+// чем 127. Поэтому при больших коэффициентах уравнения, публичные ключи
+// будут равны нулю.
 
 	// генератор простых чисел
 	public static int generateSimple() {
