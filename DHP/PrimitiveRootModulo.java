@@ -2,21 +2,17 @@ import java.math.BigInteger;
 import java.util.Random;
 import java.util.ArrayList;
 
-public class PrimitiveRootModulo {
-static Random randGen = new Random();
-	public static void main(String[] args) {
+public abstract class PrimitiveRootModulo {
 
-		System.out.println ( searchForFirst(397) );
-
-	}
-
+private static Random randGen = new Random();
+private static int BORDER=9999; // должен быть больше 4 знаков!
 
 	// генератор простых чисел
 	public static int generateSimple() {
 		int simple;
 		while (true) {
 			boolean isSimple=false;
-			simple = randGen.nextInt(9999);
+			simple = randGen.nextInt(BORDER);
 			for (int i=2; i<simple; i++) {
 				if (simple%i==0) {
 					isSimple=false;
@@ -30,14 +26,60 @@ static Random randGen = new Random();
 		return simple;
 	} // end of generateSimple
 
+	// берет первый встреченный первообразный корень числа
+	public static int searchForFirst (int simple) {
+		return searchForRoot(simple, false);
+	}
 
-	// функция Эйлера (через факторизацию числа - 
-	// разложение на простые сомножители)
-	// вычисляет количество чисел, нод которых с simple равен 1
+	// берёт первый встреченный первообразный корень, начиная со случайного g
+	public static int searchForAny (int simple) {
+		return searchForRoot(simple, true);
+	}
+
+	// метод ищет первообразный корень по модулю simple
+	// на самом деле их крайне много, возможно, целесообразно
+	// брать случайный из них
+	private static int searchForRoot (int simple, boolean isRandomPlace) {
+		int ph = phi(simple);
+		// теперь нужно факторизовать это число
+		int[] phFct = factorise(ph);
+
+		boolean isPrimitiveRoot; // триггер
+		double check=-1;
+
+		// если увеличивать g, можно брать корни из начала или конца списка
+		int g;
+		if (isRandomPlace) g=randGen.nextInt(BORDER/2);
+		else g=2;
+		
+		for (; g<=simple; g++) {
+			isPrimitiveRoot=true;
+
+			for (int i=0; i<phFct.length; i++) {
+
+				// проверяем формулу (g^(ph/phFct[i]) mod n )!=1
+				check = Math.pow ( g, (ph/phFct[i]) );
+				if (check%simple==1) {
+					isPrimitiveRoot=false;
+					break;
+				}
+
+			} // конец проверки простых множителей pi
+			if (isPrimitiveRoot) break;
+		} // end of g search
+
+		int ret = (int) g;
+		return ret;
+	} // end of searchForFirst
+
+
+	// функция Эйлера (через факторизацию числа - разложение на простые
+	// сомножители) вычисляет количество чисел, нод которых с simple равен 1
+	// (количество взаимно-простых чисел с simple)
 
 	// технически, т.к. на вход я подаю простое число (оно делится лишь 
-	// на 1 и себя), то взаимно простых делителей будет это же число-1
-	static int phi(int simple) {
+	// на 1 и себя), то взаимно простых делителей будет simple-1
+	private static int phi(int simple) {
 		int result = simple;
 		for (int i=2; i*i<simple; i++) {
 			if (simple%i==0) {
@@ -52,41 +94,9 @@ static Random randGen = new Random();
 		return result;
 	} // end of phi
 
-
-
-	// метод ищет первый первообразный корень по модулю
-	// на самом деле их крайне много
-	public static int searchForFirst (int simple) {
-		int ph = phi(simple);
-		// теперь нужно факторизовать это число
-		int[] phFct = factorise(ph);
-
-		ArrayList<Integer> currentG = new ArrayList<Integer>();
-		boolean isPrimitiveRoot;
-		double check=-1;
-		int g=2;
-		for (; g<=simple; g++) {
-			isPrimitiveRoot=true;
-
-			for (int i=0; i<phFct.length; i++) {
-				check = Math.pow ( g, (ph/phFct[i]) );
-
-				if (check%simple==1) {
-					isPrimitiveRoot=false;
-					break;
-				}
-
-			}
-
-			if (isPrimitiveRoot) break;
-		}
-		int ret = (int) g;
-		return ret;
-	}
-
-
-	// разложение на простые множители
-	static int[] factorise (int input) {
+	
+	// разложение на простые множители, возвращает массив простых множителей
+	private static int[] factorise (int input) {
 		ArrayList<Integer> answer = new ArrayList<Integer>();
 		int iterable = input;
 		for (int i=2; i<input; i++) {

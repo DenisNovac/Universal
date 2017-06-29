@@ -16,19 +16,18 @@ public class DHPTest {
 		// можным получение сообщений без доступа к конкретным машинам клиентов
 		
 		int A,B; // приватные ключи генерируют клиенты
-		BigInteger G,P; // они известны всем и публичны
+		BigInteger G,P; // коэффициенты уравнения известны всем и публичны
 
 		// P = BigInteger.valueOf(SIMPLE); // простое число
 		// G = BigInteger.valueOf(GENERATOR); // G - первообразный корень по модулю P
 		
-		/*P = BigInteger.valueOf (
-			PrimitiveRootModulo.generateSimple() );*/
+		P = BigInteger.valueOf (
+			PrimitiveRootModulo.generateSimple() );
+		G = BigInteger.valueOf (
+			PrimitiveRootModulo.searchForAny(P.intValue()) );
 
-		/*G = BigInteger.valueOf (
-			PrimitiveRootModulo.searchForFirst(P.intValue()) );*/
-
-		P=BigInteger.valueOf(397);
-		G=BigInteger.valueOf(99);
+		/*P=BigInteger.valueOf(397);
+		G=BigInteger.valueOf(99);*/
 		
 		// генерируем приватные ключи
 		while (true) {
@@ -41,32 +40,33 @@ public class DHPTest {
 		System.out.println("A="+A);
 		System.out.println("B="+B);
 
-		// Тут составляются публичные ключи
+		// Тут составляются публичные ключи по модулям P
 		BigInteger a = ( G.pow(A) ).mod(P);
 		System.out.println("a="+a);
 
 		BigInteger b = ( G.pow(B) ).mod(P);
 		System.out.println("b="+b);
 
-		// Тут составляем общий секретный суперключ
-		// на основе своего приватного ключа и публичного ключа собеседника
+		// Тут составляем общий секретный суперключ на основе своего приватного
+		// ключа и публичного ключа собеседника, KA=KB! 
 		BigInteger KA = ( b.pow(A) ).mod(P);
 		System.out.println("KA="+KA);
 		BigInteger KB = ( a.pow(B) ).mod(P);
 		System.out.println("KB="+KB);
 		// математическая магия сложных логарифмических преобразований!
+		// этот ключ не передаётся по каналу, а хранится у пользователей.
+		// таким образом, нам удалось обменяться ключами, не показав их.
+		// в обмене участвуют лишь G,P,a и b, а для получения ключа
+		// необходимы A и B. Прослушивающему аналитику необходимо решить
+		// уравнение: a^B mod P = b^A mod P. без A и B это невозможно!
+
 
 
 		//KA=BigInteger.valueOf(155);
 		String result = "Hello hello hello friend!";
 		result = textCipherXOR(KA, result);
 		result = textCipherXOR(KB, result);
-		// этот ключ не передаётся по каналу, а хранится у пользователей.
-		// таким образом, нам удалось обменяться ключами, не показав их.
-		// в обмене участвуют лишь G,P,a и b, а для получения ключа
-		// необходимы A и B. Прослушивающему шпиону необходимо решить
-		// уравнение: a^B mod P = b^A mod P. У него будут a,b и P, однако
-		// без A и B это невозможно!
+
 		KA=null;
 		KB=null;
 		System.gc();
@@ -103,8 +103,5 @@ public class DHPTest {
 		System.gc();
 		return s;
 	} // end of textCipher
-
-
-	
 
 }
