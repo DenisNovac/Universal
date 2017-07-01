@@ -7,10 +7,12 @@ import java.util.ArrayList;
 public abstract class PrimitiveRootModulo {
 
 private static Random randGen = new Random();
-private static int BORDER=128_000; // Так как в конце мы планируем переводить
+private static int BORDER=128; // Так как в конце мы планируем переводить
 // наши ключи в байты, большая граница позволяет отсеивать плохие варианты
 // ключей вроде набора единиц и нулей. Если поставить 128, выпадающие числа
 // будут почти всегда находиться в байтовом диапазоне
+private static int MINIMUM=40; // Необходим для исключения генерации слишком
+// простых ключей
 
 	// генератор простых чисел
 	public static int generateSimple() {
@@ -18,6 +20,7 @@ private static int BORDER=128_000; // Так как в конце мы план�
 		while (true) {
 			boolean isSimple=false;
 			simple = randGen.nextInt(BORDER);
+			if (simple<=MINIMUM) continue;
 			for (int i=2; i<simple; i++) {
 				if (simple%i==0) {
 					isSimple=false;
