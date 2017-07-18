@@ -24,14 +24,14 @@ public class BigKeyGeneratorTest {
 			System.out.println(G);
 
 			BigInteger[] A = generatePrivateKey(), B=generatePrivateKey();
-			printArray("A",A); printArray("B",B);
 			BigInteger[] a = generatePublicKey(A), b = generatePublicKey(B);
-			printArray("a",a); printArray("b",b);
+			/*printArray("A",A); printArray("B",B);
+			printArray("a",a); printArray("b",b);*/
 
 			BigInteger[] superkeyA = generateSuperkey(b,A);
 			BigInteger[] superkeyB = generateSuperkey(a,B);
-			printArray("sA",superkeyA);
-			printArray("sB",superkeyB);
+			/*printArray("sA",superkeyA);
+			printArray("sB",superkeyB);*/
 
 			byte[] keyA = convertToBytes(superkeyA);
 			byte[] keyB = convertToBytes(superkeyB);
