@@ -16,17 +16,21 @@ import java.sql.ResultSet;
 public class DatabaseH2 {
 	private String databasePath = "jdbc:h2:./data/";
 	private String user = "user";
-	private String password = "";
+	// первый пароль - пароль для файла базы данных, второй для юзера
+	private String password = "filepassword userpassword";
 
 	public DatabaseH2 (String name) {
 		name=name.trim();
-		databasePath+=name;
+		// строка CIPHER=AES шифрует базу данных, но для этого необходим пароль
+		databasePath+=(name+";CIPHER=AES");
 		try {
 			Class.forName("org.h2.Driver");
 			Connection conn = DriverManager.getConnection(
 				databasePath, user, password);
 			Statement st = conn.createStatement();
-			st.execute("CREATE TABLE users( userid int, username varchar(255) )");
+			st.execute("CREATE TABLE IF NOT EXISTS users("+ 
+				"userid int, username varchar(255),"+
+				"PRIMARY KEY(userid) )");
 			st.execute("INSERT INTO users (userid,username) VALUES (1,'denis')");
 			st.execute("INSERT INTO users (userid,username) VALUES (2,'fil')");
 
@@ -37,11 +41,18 @@ public class DatabaseH2 {
 				System.out.println(userid+" "+username);
 			}
 
+
+			results = st.executeQuery("SELECT * FROM users");
+			while (results.next()) {
+				System.out.println(results.getString(results.getRow()));
+			}
+
 			conn.close();
 		} catch (Exception e) {
 			System.out.println(e);
 		}
 	}
+
 
 
 
