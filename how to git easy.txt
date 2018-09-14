@@ -1,0 +1,32 @@
+
+Шпора GitHub и Git.
+
+// JUST LIKE ON GITHUB!!!
+git config --global user.email "pon****@***.***"
+git config --global user.name "DenisNovac"
+
+Перешли в папку с проектом.
+git init - создали пустой репозиторий
+git add --all - поместили все файлы и подкаталоги
+git status - проверили, что добавили
+
+git commit -m "comment" - создание новой версии в ветке m
+git show --name-only - измененные файлы
+
+Теперь создаем репозиторий на GitHub.
+Берём ссылку Https
+
+Подключение:
+git remote add <НАЗВАНИЕ РЕПОЗИТОРИЯ> https://github.com/DenisNovac/CSharp-ASP.git
+git pull <НАЗВАНИЕ> masters
+
+Загрузка изменений на гитхаб:
+git push -u <НАЗВАНИЕ РЕПОЗИТОРИЯ> master
+
+ключ -u нужен лишь первый раз, гитхаб потребует пароль
+
+Остальные разы просто
+git push
+
+Обновления с удаленного репозитория:
+git pull
