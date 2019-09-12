@@ -1,4 +1,4 @@
-
+﻿
 Шпора GitHub и Git.
 
 // JUST LIKE ON GITHUB!!!
@@ -30,3 +30,11 @@ git push
 
 Обновления с удаленного репозитория:
 git pull
+
+Для смены имени для конкретного проекта:
+git config user.name "DenisNovac"
+git config user.email "email@email.com"
+
+
+
+
