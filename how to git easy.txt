@@ -31,10 +31,32 @@ git push
 Обновления с удаленного репозитория:
 git pull
 
-Для смены имени для конкретного проекта:
+
+
+
+
+
+Для смены имени для конкретного проекта (например чтобы пушить в разные удаленные репозитории один локальный под разными именами):
 git config user.name "DenisNovac"
 git config user.email "email@email.com"
 
+Снести кешированные имя и пароль (для админа):
+git config --system --unset credential.helper
 
+Добавить дополнительнй ремот в уже существующий репозиторий:
+git remote add <НАЗВАНИЕ РЕПОЗИТОРИЯ> https://github.com/DenisNovac/CSharp-ASP.git
+
+Список:
+git remote
+
+Пушить уже в него
+git push <НАЗВАНИЕ РЕПОЗИТОРИЯ>
+git push без дополнений пушит в origin
+
+Переключить ветку:
+git checkout "develop"
+
+Пушить в неё:
+git push origin develop
 
 
